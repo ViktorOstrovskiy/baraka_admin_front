@@ -23,7 +23,8 @@
 }
 
 .Main-search {
-  min-width: 830px;
+  width: 100%;
+  max-width: 830px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -160,3 +161,4 @@
     }
   }
 }
+
