@@ -12,10 +12,10 @@ export const searchNews = async (search) => {
 };
 
 
-export const uploadNews = async (search) => {
+export const getNewsById = async (id) => {
     try {
 
-        const response = await axios.post(`https://ki-data-back.vercel.app/api/updateIndex`);
+        const response = await axios.get(`https://ki-data-back.vercel.app/api/article?id=${id}`);
         return response.data;
     } catch (error) {
         throw error;

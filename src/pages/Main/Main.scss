@@ -119,6 +119,29 @@
       margin-bottom: 15px;
     }
 
+    /* Стилізація тегів */
+    .News-tags {
+      margin-bottom: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .News-tag {
+      background-color: #ecf0f1;
+      color: #2c3e50;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.875rem;
+      display: inline-block;
+      transition: background-color 0.3s ease, color 0.3s ease;
+
+      &:hover {
+        background-color: #bdc3c7;
+        color: #ffffff;
+      }
+    }
+
     .ReadMore-button {
       background-color: transparent;
       border: none;
@@ -163,4 +186,3 @@
     }
   }
 }
-

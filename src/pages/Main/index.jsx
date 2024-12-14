@@ -1,6 +1,8 @@
+// MainPage.js
 import './Main.scss';
 import { searchNews } from "./action.js";
 import { useState } from "react";
+import { Link } from 'react-router-dom'; // Імпортуємо Link з react-router-dom
 
 const MainPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -29,17 +31,6 @@ const MainPage = () => {
         }
     }
 
-    const toggleExpand = (index) => {
-        setExpandedArticles(prev => {
-            const newSet = new Set(prev);
-            if (newSet.has(index)) {
-                newSet.delete(index);
-            } else {
-                newSet.add(index);
-            }
-            return newSet;
-        });
-    }
 
     return (
         <div className='Main'>
@@ -68,14 +59,20 @@ const MainPage = () => {
                             <div className='News-content'>
                                 <h2 className='News-title'>{article.metadata.title}</h2>
                                 <p className='News-description'>{article.metadata.description}</p>
-                                <button className='ReadMore-button' onClick={() => toggleExpand(index)}>
-                                    {expandedArticles.has(index) ? 'Show Less' : 'Read more'}
-                                </button>
-                                {expandedArticles.has(index) && (
-                                    <div className='News-full-content'>
-                                        <p>{article.metadata.content}</p>
+
+                                {article.metadata.tags && article.metadata.tags.length > 0 && (
+                                    <div className='News-tags'>
+                                        {article.metadata.tags.map((tag, tagIndex) => (
+                                            <span key={tagIndex} className='News-tag'>
+                                                {tag}
+                                            </span>
+                                        ))}
                                     </div>
                                 )}
+
+                                <Link to={`/article/${article.id}`} className='ReadMore-button'>
+                                    Read more
+                                </Link>
                             </div>
                         </div>
                     ))
