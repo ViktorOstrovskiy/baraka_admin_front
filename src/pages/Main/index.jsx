@@ -143,7 +143,7 @@ const MainPage = () => {
             <div className='Main-content'>
                 <div className='Main-search-content'>
                     <div className='Main-search'>
-                        <Input placeholder='Enter a query to search for news...' onChange={(e) => setSearch(e.target.value)} value={search}/>
+                        <Input placeholder='Enter a query to search for articles...' onChange={(e) => setSearch(e.target.value)} value={search}/>
                         <button onClick={handleClick} disabled={isLoading}>
                             {isLoading ? 'Searching' : 'Search'}
                         </button>
