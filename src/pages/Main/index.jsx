@@ -25,7 +25,7 @@ const MainPage = () => {
     const [news, setNews] = useState([]);
     const [error, setError] = useState(null);
     const [selectedValues, setSelectedValues] = useState({
-        sorted: null,
+        sorted: 'relevance',
         land: null,
         name: null,
         licence: null,
@@ -35,7 +35,6 @@ const MainPage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
 
     const handleDateChange = (date) => {
-        console.log("Выбранная дата:", date);
         setSelectedDate(date);
     };
     const navigate = useNavigate();
