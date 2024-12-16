@@ -1,11 +1,12 @@
 import './Main.scss';
 import { searchNews } from "./action.js";
-import {useEffect, useState} from "react";
+import {useEffect, useState,useRef} from "react";
 import {useNavigate} from 'react-router-dom';
 import Input from "../../components/UI/Input/index.jsx";
 import Checkbox from "../../components/UI/Checkbox/index.jsx";
 import moment from "moment";
 import map from "../../assets/images/map.svg";
+import list from "../../assets/images/list.svg";
 import SelectBox from "../../components/UI/Select/index.jsx";
 import {
     cityOptions,
@@ -32,7 +33,12 @@ const MainPage = () => {
         city: null,
         district: null
     })
+    const [showMap,setShowMap] = useState(false);
+
     const [selectedDate, setSelectedDate] = useState(null);
+
+    const mapRef = useRef(null); // Реф для контейнера карти
+    const mapInstance = useRef(null); // Реф для об'єкта карти
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -41,6 +47,10 @@ const MainPage = () => {
 
     const handleChangeSelect = (value, key) => {
         setSelectedValues({...selectedValues, [key]: value})
+    }
+
+    const handleClickShowMap = () => {
+        setShowMap(!showMap)
     }
 
     const handleClick = async () => {
@@ -78,6 +88,56 @@ const MainPage = () => {
     const handleClickNews = (id) => {
         navigate(`article/${id}`)
     }
+
+
+    useEffect(() => {
+        if (showMap && news.length > 0 && mapRef.current) {
+            const platform = new H.service.Platform({
+                apikey: '8sldLXC5RzF3dgO3VFKdoFMK8_pLb_la1RJD96GHf2Y',
+            });
+
+            const defaultLayers = platform.createDefaultLayers();
+            const map = new H.Map(
+                mapRef.current,
+                defaultLayers.vector.normal.map,
+                {
+                    center: { lat: 53.5511, lng: 9.9937 },
+                    zoom: 7,
+                }
+            );
+
+            mapInstance.current = map;
+
+            const ui = H.ui.UI.createDefault(map, defaultLayers);
+            const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+            news.forEach(article => {
+                if (article.metadata.latitude && article.metadata.longitude) {
+                    const marker = new H.map.Marker({
+                        lat: parseFloat(article.metadata.latitude),
+                        lng: parseFloat(article.metadata.longitude),
+                    });
+
+                    marker.addEventListener('tap', () => {
+                        navigate(`article/${article.id}`);
+                    });
+
+                    marker.setData({ cursor: 'pointer' });
+                    marker.addEventListener('pointerenter', (evt) => {
+                        map.getElement().style.cursor = 'pointer';
+                    });
+                    marker.addEventListener('pointerleave', (evt) => {
+                        map.getElement().style.cursor = '';
+                    });
+
+                    map.addObject(marker);
+                }
+            });
+
+            return () => map.dispose();
+        }
+    }, [showMap, news, navigate]);
+
 
 
     return (
@@ -163,9 +223,9 @@ const MainPage = () => {
                     <div style={{width: '132px'}}>
                         <SelectBox placeholder='Sorted' value={selectedValues.sorted} options={optionsSort} onChange={(value) => handleChangeSelect(value, 'sorted')} />
                     </div>
-                    <div className='Main-filter-navigate-map'>
-                        <img src={map} alt=""/>
-                        Show on map
+                    <div className='Main-filter-navigate-map' onClick={handleClickShowMap}>
+                        {showMap ? <img src={list} alt=""/> : <img src={map} alt=""/>}
+                        {showMap ? "Show list" :"Show on map"}
                     </div>
                 </div>
 
@@ -175,12 +235,16 @@ const MainPage = () => {
                         <div className="spinner"></div>
                     </div>
                 )}
-                <div className='Main-news'>
-                    {!isLoadingFirst && !isLoading &&  news.length > 0 ? (
+                { showMap ?
+                    <div ref={mapRef} style={{ width: '100%', height: '500px' }} />
+
+                    :<div className='Main-news'>
+                    {!isLoadingFirst && !isLoading && news.length > 0 ? (
                         news.map((article, index) => (
                             <div key={index} className='News-item'>
                                 <div className='News-content'>
-                                    <h2 onClick={() => handleClickNews(article.id)} className='News-title'>{article.metadata.title}</h2>
+                                    <h2 onClick={() => handleClickNews(article.id)}
+                                        className='News-title'>{article.metadata.title}</h2>
                                     <p className='News-description'>{article.metadata.description}</p>
 
                                     {article.metadata.tags && article.metadata.tags.length > 0 && (
@@ -204,7 +268,7 @@ const MainPage = () => {
                     ) : (
                         !isLoading && !isLoadingFirst && <p>Enter your query and click Search to see the news.</p>
                     )}
-                </div>
+                </div>}
             </div>
         </div>
     )
