@@ -4,10 +4,18 @@ import {useEffect, useState} from "react";
 import {useNavigate} from 'react-router-dom';
 import Input from "../../components/UI/Input/index.jsx";
 import Checkbox from "../../components/UI/Checkbox/index.jsx";
-import calendar from '../../assets/images/calendar.svg';
-import arrow from '../../assets/images/select-arrow.svg';
 import moment from "moment";
 import map from "../../assets/images/map.svg";
+import SelectBox from "../../components/UI/Select/index.jsx";
+import {
+    cityOptions,
+    districtOptions,
+    landOptions,
+    optionsSort,
+    licenceOptions,
+    namesOptions
+} from "../../core/helpers/data.js";
+import DatePicker from "../../components/UI/DatePicker/index.jsx";
 
 
 const MainPage = () => {
@@ -16,7 +24,25 @@ const MainPage = () => {
     const [search, setSearch] = useState('');
     const [news, setNews] = useState([]);
     const [error, setError] = useState(null);
+    const [selectedValues, setSelectedValues] = useState({
+        sorted: null,
+        land: null,
+        name: null,
+        licence: null,
+        city: null,
+        district: null
+    })
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    const handleDateChange = (date) => {
+        console.log("Выбранная дата:", date);
+        setSelectedDate(date);
+    };
     const navigate = useNavigate();
+
+    const handleChangeSelect = (value, key) => {
+        setSelectedValues({...selectedValues, [key]: value})
+    }
 
     const handleClick = async () => {
 
@@ -71,7 +97,6 @@ const MainPage = () => {
                         <Checkbox onChange={() => {}} label='Ethics' checked={true}/>
                         <Checkbox onChange={() => {}} label='Healthcare' checked={true}/>
                         <Checkbox onChange={() => {}} label='Cybersecurity' checked={true}/>
-
                     </div>
                 </div>
                 <div className='Main-filters-tags'>
@@ -79,10 +104,11 @@ const MainPage = () => {
                         Date published
                     </div>
                     <div className='Main-filters-tags-selects'>
-                        <div className='Main-filters-tags-select'>
-                            <span>10.12.2024</span>
-                            <img src={calendar} alt=""/>
-                        </div>
+                        <DatePicker
+                            placeholder="Choose a date"
+                            selectedDate={selectedDate}
+                            onChange={handleDateChange}
+                        />
                     </div>
                 </div>
                 <div className='Main-filters-tags'>
@@ -103,18 +129,9 @@ const MainPage = () => {
                         Location
                     </div>
                     <div className='Main-filters-tags-selects'>
-                        <div className='Main-filters-tags-select'>
-                            <span>Land</span>
-                            <img src={arrow} alt=""/>
-                        </div>
-                        <div className='Main-filters-tags-select'>
-                            <span>City</span>
-                            <img src={arrow} alt=""/>
-                        </div>
-                        <div className='Main-filters-tags-select'>
-                            <span>District</span>
-                            <img src={arrow} alt=""/>
-                        </div>
+                        <SelectBox placeholder='Land' value={selectedValues.land} options={landOptions} onChange={(value) => handleChangeSelect(value, 'land')} />
+                        <SelectBox placeholder='City' value={selectedValues.city} options={cityOptions}  onChange={(value) => handleChangeSelect(value, 'city')} />
+                        <SelectBox placeholder='District' value={selectedValues.district} options={districtOptions}  onChange={(value) => handleChangeSelect(value, 'district')} />
                     </div>
                 </div>
                 <div className='Main-filters-tags'>
@@ -122,10 +139,7 @@ const MainPage = () => {
                         Publisher
                     </div>
                     <div className='Main-filters-tags-selects'>
-                        <div className='Main-filters-tags-select'>
-                            <span>Name</span>
-                            <img src={arrow} alt=""/>
-                        </div>
+                        <SelectBox placeholder='Name' options={namesOptions}  onChange={(value) => handleChangeSelect(value, 'name')}/>
                     </div>
                 </div>
                 <div className='Main-filters-tags'>
@@ -133,10 +147,7 @@ const MainPage = () => {
                         License
                     </div>
                     <div className='Main-filters-tags-selects'>
-                        <div className='Main-filters-tags-select'>
-                            <span>MIT License</span>
-                            <img src={arrow} alt=""/>
-                        </div>
+                        <SelectBox placeholder='MIT License' value={selectedValues.licence} options={licenceOptions}  onChange={(value) => handleChangeSelect(value, 'licence')} />
                     </div>
                 </div>
             </div>
@@ -150,9 +161,8 @@ const MainPage = () => {
                     </div>
                 </div>
                 <div className='Main-filter'>
-                    <div className='Main-filters-tags-select' style={{width: '132px'}}>
-                        <span>Relevance</span>
-                        <img src={arrow} alt=""/>
+                    <div style={{width: '132px'}}>
+                        <SelectBox placeholder='Sorted' value={selectedValues.sorted} options={optionsSort} onChange={(value) => handleChangeSelect(value, 'sorted')} />
                     </div>
                     <div className='Main-filter-navigate-map'>
                         <img src={map} alt=""/>
