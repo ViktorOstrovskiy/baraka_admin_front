@@ -161,7 +161,7 @@ const MainPage = () => {
                 </div>
 
                 {error && <div className='Main-error'>{error}</div>}
-                {isLoading || isLoadingFirst && (
+                {(isLoading || isLoadingFirst) && (
                     <div className='spinner-container'>
                         <div className="spinner"></div>
                     </div>
