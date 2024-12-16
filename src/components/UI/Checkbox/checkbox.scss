@@ -1,0 +1,35 @@
+/* checkbox.scss */
+
+.custom-checkbox {
+  display: flex;
+  cursor: pointer;
+  gap: 12px;
+}
+
+.checkbox-box {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgb(44, 44, 44);
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s, border-color 0.2s;
+  position: relative;
+}
+
+.icon-check {
+  position: absolute;
+  z-index: 9999;
+}
+
+.custom-checkbox.checked .checkbox-box {
+  background-color: rgb(44, 44, 44);
+  border-color: rgb(44, 44, 44);
+}
+
+.checkbox-label {
+ font-size: 14px;
+  white-space: nowrap;
+  font-weight: 400;
+}

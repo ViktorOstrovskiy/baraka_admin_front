@@ -1,0 +1,42 @@
+.Input {
+  width: 100%;
+  height: 44px;
+  max-height: 44px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 2px solid rgba(15, 17, 250, 1.00);
+  padding: 0 10px;
+
+  input {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+
+    /* Вимикаємо стандартне виділення */
+    outline: none;
+
+    /* Усуваємо всі стани при фокусі, активності тощо */
+    &:focus {
+      border: none;
+      outline: none;
+    }
+    &:active {
+      border: none;
+      outline: none;
+    }
+    &:focus-visible {
+      border: none;
+      outline: none;
+    }
+    &:focus-within {
+      border: none;
+      outline: none;
+    }
+  }
+
+}
