@@ -16,6 +16,8 @@
     border-radius: 8px;
     border: none;
     background: transparent;
+    color: rgb(30, 30, 30); /* Встановлюємо колір тексту */
+    font: inherit; /* Наслідуємо шрифт сайту */
 
     /* Вимикаємо стандартне виділення */
     outline: none;
@@ -38,5 +40,4 @@
       outline: none;
     }
   }
-
 }
