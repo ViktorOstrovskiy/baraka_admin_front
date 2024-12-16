@@ -1,5 +1,7 @@
 import './header.scss';
-import logo from '../../assets/images/logo.svg'
+import logo from '../../assets/images/logoFirst.svg'
+import logoSecond from '../../assets/images/logoSecond.svg'
+
 
 const Header = () => {
 
@@ -12,6 +14,7 @@ const Header = () => {
 
             <div className='Header-content'>
                 <img src={logo} alt=""/>
+                <img src={logoSecond} alt=""/>
             </div>
 
         </div>
