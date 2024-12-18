@@ -37,8 +37,61 @@ const MainPage = () => {
 
     const [selectedDate, setSelectedDate] = useState(null);
 
-    const mapRef = useRef(null); // Реф для контейнера карти
-    const mapInstance = useRef(null); // Реф для об'єкта карти
+    const mapRef = useRef(null);
+    const mapInstance = useRef(null);
+
+    const [tooltipData, setTooltipData] = useState(null);
+
+    const handleMarkerClick = (article, evt) => {
+        if (!evt.target || typeof evt.target.getGeometry !== "function") {
+            console.error("Event target is not a valid marker.");
+            return;
+        }
+
+        if (mapRef.current && mapInstance.current) {
+            const mapContainerRect = mapRef.current.getBoundingClientRect();
+            const map = mapInstance.current;
+
+            const markerCoords = evt.target.getGeometry();
+            const screenPoint = map.geoToScreen(markerCoords);
+
+            const tooltipX = screenPoint.x + mapContainerRect.left;
+            const tooltipY = screenPoint.y + mapContainerRect.top + window.scrollY; // Додано scrollY для врахування скролу
+
+            setTooltipData({
+                content: (
+                    <div className='tooltip-content'>
+                    <span className='tooltip-content-title' onClick={() => handleClickNews(article.id)}>
+                        {article.metadata.title}
+                    </span>
+                        <div className='tooltip-content-info'>
+                            {article.metadata.author} {article.metadata.address}
+                        </div>
+                        <div className='tooltip-content-distance'>
+                            5km from you
+                        </div>
+                        {article.metadata.tags && article.metadata.tags.length > 0 && (
+                            <div className='tooltip-content-tags'>
+                                {article.metadata.tags.map((tag, tagIndex) => (
+                                    <span key={tagIndex} className='tooltip-content-tags-tag'>
+                                    {tag}
+                                </span>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                ),
+                position: {
+                    left: tooltipX,
+                    top: tooltipY,
+                },
+            });
+        }
+    };
+
+    const handleCloseTooltip = () => {
+        setTooltipData(null);
+    };
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -89,7 +142,6 @@ const MainPage = () => {
         navigate(`article/${id}`)
     }
 
-
     useEffect(() => {
         if (showMap && news.length > 0 && mapRef.current) {
             const platform = new H.service.Platform({
@@ -118,9 +170,15 @@ const MainPage = () => {
                         lng: parseFloat(article.metadata.longitude),
                     });
 
-                    marker.addEventListener('tap', () => {
-                        navigate(`article/${article.id}`);
+                    marker.addEventListener('tap', (evt) => {
+                        if (!evt || !evt.target) {
+                            console.error("Event or target is undefined.");
+                            return;
+                        }
+
+                        handleMarkerClick(article, evt);
                     });
+
 
                     marker.setData({ cursor: 'pointer' });
                     marker.addEventListener('pointerenter', (evt) => {
@@ -138,6 +196,26 @@ const MainPage = () => {
         }
     }, [showMap, news, navigate]);
 
+
+    useEffect(() => {
+        const handleMapInteraction = () => {
+            if (tooltipData) {
+                handleCloseTooltip();
+            }
+        };
+
+        if (mapInstance.current) {
+            mapInstance.current.addEventListener('dragstart', handleMapInteraction);
+            mapInstance.current.addEventListener('tap', handleMapInteraction);
+        }
+
+        return () => {
+            if (mapInstance.current) {
+                mapInstance.current.removeEventListener('dragstart', handleMapInteraction);
+                mapInstance.current.removeEventListener('tap', handleMapInteraction);
+            }
+        };
+    }, [tooltipData, mapInstance]);
 
 
     return (
@@ -256,7 +334,6 @@ const MainPage = () => {
                                             ))}
                                         </div>
                                     )}
-
                                     <div className='News-info'>
                                         <span>{moment(article.metadata.date).format('DD.MM.YYYY')}</span>
                                         <span>{article.metadata.author}, {article.metadata.address}</span>
@@ -270,6 +347,18 @@ const MainPage = () => {
                     )}
                 </div>}
             </div>
+            {tooltipData && (
+                <div
+                    className="tooltip"
+                    style={{
+                        position: 'absolute',
+                        left: `${tooltipData.position.left}px`,
+                        top: `${tooltipData.position.top - 50}px`,
+                    }}
+                >
+                    {tooltipData.content}
+                </div>
+            )}
         </div>
     )
 }
