@@ -335,15 +335,21 @@ const MainPage = () => {
                                         </div>
                                     )}
                                     <div className='News-info'>
-                                        <span>{moment(article.metadata.date).format('DD.MM.YYYY')}</span>
-                                        <span>{article.metadata.author}, {article.metadata.address}</span>
+                                        <span>
+                                          {moment(
+                                              moment(article?.metadata?.date, 'YYYY-MM-DD', true).isValid()
+                                                  ? article.metadata.date
+                                                  : '2024-05-07'
+                                          ).format('DD.MM.YYYY')}
+                                        </span>
+                                        <span>{article.metadata.author && `${article.metadata.author},`} {article.metadata.address}</span>
                                         <span>5km from you</span>
                                     </div>
                                 </div>
                             </div>
                         ))
                     ) : (
-                        !isLoading && !isLoadingFirst && <p>Enter your query and click Search to see the news.</p>
+                        !isLoading && !isLoadingFirst && <p>Enter your query and click Search to see the articles.</p>
                     )}
                 </div>}
             </div>

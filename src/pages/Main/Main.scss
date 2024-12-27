@@ -250,8 +250,14 @@
       line-height: 20px;
       color: rgb(117, 117, 117);
       margin: 0;
-
+      max-height: 80px;
+      overflow: hidden; /* Приховує текст, що виходить за межі */
+      text-overflow: ellipsis; /* Додає три крапки */
+      display: -webkit-box; /* Додає підтримку багаторядкової обробки */
+      -webkit-line-clamp: 5; /* Вказує кількість рядків (100px / 20px = 5 рядків) */
+      -webkit-box-orient: vertical; /* Встановлює орієнтацію тексту */
     }
+
 
     .News-tags {
       display: flex;

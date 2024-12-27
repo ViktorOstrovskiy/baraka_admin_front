@@ -4,13 +4,14 @@ import { useState, useEffect, useRef } from 'react';
 import { getNewsById } from "../Main/action.js";
 import back from '../../assets/images/arrow.svg';
 import map from '../../assets/images/map.svg';
+import moment from "moment/moment.js";
 
 const ArticlePage = () => {
     const { id } = useParams();
     const [article, setArticle] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const mapRef = useRef(null); // Для збереження посилання на контейнер карти
+    const mapRef = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -34,7 +35,7 @@ const ArticlePage = () => {
     useEffect(() => {
         if (article && article.metadata.latitude && article.metadata.longitude && mapRef.current) {
             const platform = new H.service.Platform({
-                apikey: '8sldLXC5RzF3dgO3VFKdoFMK8_pLb_la1RJD96GHf2Y', // Замініть на ваш API-ключ HERE Maps
+                apikey: '8sldLXC5RzF3dgO3VFKdoFMK8_pLb_la1RJD96GHf2Y',
             });
 
             const defaultLayers = platform.createDefaultLayers();
@@ -101,13 +102,15 @@ const ArticlePage = () => {
                         )}
 
                         <div className='Article-info'>
-                            <span>{article.metadata.date}</span>
-                            <span>{article.metadata.author}, {article.metadata.address}</span>
+                            <span>
+                                {moment(
+                                    moment(article?.metadata?.date, 'YYYY-MM-DD', true).isValid()
+                                        ? article.metadata.date
+                                        : '2024-05-07'
+                                ).format('DD.MM.YYYY')}
+                            </span>
+                            <span>{article.metadata.author && `${article.metadata.author},`} {article.metadata.address}</span>
                             <span>5km from you</span>
-                        </div>
-
-                        <div className='Article-full-content'>
-                            <p>{article.metadata.content}</p>
                         </div>
 
                         <div className='Article-map-container'>
