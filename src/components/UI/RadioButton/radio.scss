@@ -1,0 +1,34 @@
+.custom-radio {
+  display: flex;
+  cursor: pointer;
+  gap: 12px;
+}
+
+.radio-circle {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgb(44, 44, 44);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s, border-color 0.2s;
+  position: relative;
+}
+
+.radio-inner-circle {
+  width: 8px;
+  height: 8px;
+  background-color: rgb(44, 44, 44);
+  border-radius: 50%;
+}
+
+.custom-radio.selected .radio-circle {
+  border-color: rgb(44, 44, 44);
+}
+
+.radio-label {
+  font-size: 14px;
+  white-space: nowrap;
+  font-weight: 400;
+}
