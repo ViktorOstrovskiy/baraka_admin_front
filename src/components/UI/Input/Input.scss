@@ -7,7 +7,7 @@
   align-items: center;
   border-radius: 8px;
   background: #ffffff;
-  border: 2px solid rgba(15, 17, 250, 1.00);
+  border: 2px solid #20a052;
   padding: 0 10px;
 
   input {
@@ -16,13 +16,11 @@
     border-radius: 8px;
     border: none;
     background: transparent;
-    color: rgb(30, 30, 30); /* Встановлюємо колір тексту */
-    font: inherit; /* Наслідуємо шрифт сайту */
+    color: rgb(30, 30, 30);
+    font: inherit;
 
-    /* Вимикаємо стандартне виділення */
     outline: none;
 
-    /* Усуваємо всі стани при фокусі, активності тощо */
     &:focus {
       border: none;
       outline: none;

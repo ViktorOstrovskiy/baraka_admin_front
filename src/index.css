@@ -35,14 +35,6 @@ body {
   font-family: 'DMMono';
 }
 
-
-@media (max-width: 1000px) {
-  body {
-    width: fit-content;
-    min-width: 930px;
-  }
-}
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
