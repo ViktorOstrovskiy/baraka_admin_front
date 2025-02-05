@@ -4,7 +4,7 @@ import {useState} from "react";
 import './SearchProfessions.scss';
 
 
-const SearchProfessions = () => {
+const SearchProfessions = ({handleClickItemSearch}) => {
     const [search, setSearch] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [news, setNews] = useState([]);
@@ -39,10 +39,22 @@ const SearchProfessions = () => {
             </div>
             {!isLoading && news.length > 0 ? (
                 news.map((article, index) => (
-                    <div key={index} className='Profession-item'>
+                    <div key={index} className='Profession-item' onClick={() => handleClickItemSearch({
+                        ...article.metadata,
+                        id: Number(article.id)
+                    })}>
                         <div className='Profession-content'>
                             <h2 onClick={() => handleClickNews(article.id)}
                                 className='Profession-title'>{article.metadata.profession_name} <span>{toPercentage(article.score)}</span></h2>
+                            {article.metadata.keyWords && article.metadata.keyWords.length > 0 && (
+                                <div className='SearchProfessions-tags'>
+                                    {article.metadata.keyWords.map((tag, tagIndex) => (
+                                        <span key={tagIndex} className='SearchProfessions-tag'>
+                                                    {tag}
+                                                </span>
+                                    ))}
+                                </div>
+                            )}
                             <p className='Profession-description'>{article.metadata.category_name}</p>
                         </div>
                     </div>

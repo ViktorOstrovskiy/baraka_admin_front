@@ -1,0 +1,38 @@
+.modal-overlay {
+  background: rgba(17, 17, 17, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow: auto;
+  z-index: 100;
+}
+
+.modal {
+  background: #fff;
+  max-width: 480px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  position: relative;
+  outline: none;
+  cursor: default;
+}
+
+.modal-title {
+  text-align: center;
+  margin: 12px 0 24px;
+  font-size: 24px;
+}
+
+.modal-close {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.modal-content {
+  position: relative;
+}

@@ -10,7 +10,6 @@ export const searchNews = async (search) => {
     }
 };
 
-
 export const getNewsById = async (id) => {
     try {
 

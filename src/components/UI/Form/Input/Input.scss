@@ -1,0 +1,193 @@
+/* Input.scss */
+
+.input-wrapper {
+    width: 100%;
+    margin-bottom: 12px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.input-block {
+    border: 1px solid #dadddf;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    min-height: 48px;
+    padding: 0 12px;
+    position: relative;
+    cursor: text;
+    transition: 0.3s;
+
+    &.error {
+        border-color: #f80e23;
+    }
+
+    &.disabled {
+        background: #ebedef;
+        pointer-events: none;
+    }
+
+    &.is-login {
+        /* Можливо, додаткові стилі для isLogin */
+    }
+
+    /* Вкладений елемент input */
+    .input-block__input {
+        color: #111111;
+        border: none;
+        font-size: 14px;
+        width: 100%;
+        height: 0px;
+        background: transparent;
+        outline: none;
+        opacity: 0;
+        transition: 0.3s;
+        line-height: 1;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &.is-input {
+            height: 18px;
+            opacity: 1;
+            position: relative;
+        }
+
+        &.is-login {
+            height: var(--initial-height, 18px);
+            opacity: 1;
+            display: block;
+            position: relative;
+        }
+    }
+
+    /* Вкладений елемент placeholder */
+    .input-block__placeholder {
+        font-size: 14px;
+        color: #676c74;
+        transition:
+            font-size 0.3s,
+            margin-bottom 0.3s;
+        pointer-events: none;
+        line-height: 1;
+
+        &.is-input {
+            font-size: 12px;
+            margin-bottom: 2px;
+        }
+    }
+
+    /* Вкладений елемент content */
+    .input-block__content {
+        text-align: left;
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Вкладений елемент icon */
+    .input-block__icon {
+        width: 10%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        transition: 0.3s;
+
+        svg {
+            transition: 0.3s;
+            transform: rotate(0deg);
+
+            &.active {
+                transform: rotate(180deg);
+            }
+        }
+    }
+}
+
+.input-drop {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    z-index: 10;
+    border: 1px solid rgb(218, 221, 223);
+    border-radius: 10px;
+    box-shadow:
+        0px 1px 2px 0px rgba(0, 0, 0, 0.12),
+        0px 6px 24px 0px rgba(0, 0, 0, 0.24);
+    background: rgb(255, 255, 255);
+    padding: 12px 6px;
+    overflow: auto;
+    max-height: 250px;
+    transition:
+        bottom 0.3s,
+        top 0.3s;
+
+    &.bottom {
+        bottom: calc(100% + 8px);
+    }
+
+    &.top {
+        top: calc(100% + 8px);
+    }
+
+    .input-drop__item {
+        width: 100%;
+        padding: 6px 30px 6px 6px;
+        font-size: 14px;
+        position: relative;
+        cursor: pointer;
+        font-weight: 400;
+        transition: 0.3s;
+        margin-bottom: 3px;
+
+        &:hover {
+            background: #ebedef;
+            border-radius: 8px;
+        }
+
+        &.is-active {
+            font-weight: 500;
+
+            &::before {
+                content: '';
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                right: 0;
+                //background: url('/src/assets/images/NewUI/okGray.svg') center no-repeat;
+                background-size: contain;
+                transition: opacity 0.3s;
+                opacity: 1;
+            }
+        }
+
+        &:not(.is-active)::before {
+            opacity: 0;
+        }
+
+        span {
+            font-weight: 600;
+        }
+    }
+
+    .no-data {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.input-info-text {
+    width: 100%;
+    margin-top: 2px;
+    text-align: left;
+    color: red;
+    font-size: 12px;
+}
