@@ -7,6 +7,7 @@ import ModalUpdate from "./Modals/Update.jsx";
 import CopySvg from "../UI/Icons/CopySvg.jsx";
 import ArrowLeftSvg from "../UI/Icons/ArrowLeftSvg.jsx";
 import DeleteSvg from "../UI/Icons/DeleteSvg.jsx";
+import Input from "../UI/Input/index.jsx";
 
 const Professions = ({selectedProfession, setSelectedProfession, step, setStep}) => {
     const [listProfession, setListProfession] = useState(null);
@@ -17,6 +18,8 @@ const Professions = ({selectedProfession, setSelectedProfession, step, setStep})
     const [keyWordsListForProfession, setKeyWordsListForProfession] = useState(null);
     const [pageKeyWords, setPageKeyWords] = useState(1);
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+    const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+    const [search, setSearch] = useState('');
 
     const handleClickSelectedProfession = async (profession) => {
         await setSelectedProfession(profession);
@@ -54,7 +57,7 @@ const Professions = ({selectedProfession, setSelectedProfession, step, setStep})
     };
 
     const loadData = async () => {
-        const resp = await getProfessions(page);
+        const resp = await getProfessions(page, search);
         if (resp) {
             setListProfession(resp);
         }
@@ -88,10 +91,32 @@ const Professions = ({selectedProfession, setSelectedProfession, step, setStep})
     },[])
 
 
+    const handleClickSearch = async () => {
+        setIsLoadingSearch(true);
+        setPage(1)
+        const resp = await getProfessions(1, search);
+        if (resp) {
+            setListProfession(resp);
+        }
+        setIsLoadingSearch(false);
+    }
+
+
     return (
 
         <div className='Profession'>
-            {step === 1 && <div className="Table">
+            {step === 1 &&
+                <div className='Profession-form'>
+                <div className='SearchProfessions-search-content'>
+                    <div className='SearchProfessions-search'>
+                        <Input placeholder='Enter a query to search for profession name...' onChange={(e) => setSearch(e.target.value)} value={search}/>
+                        <button onClick={handleClickSearch} disabled={isLoadingSearch}>
+                            {isLoadingSearch ? 'Searching' : 'Search'}
+                        </button>
+                    </div>
+                </div>
+
+                <div className="Table">
                 <div className="Table-head">
                     <div className="Table-head-item AccountList-item">Category name</div>
                     <div className="Table-head-item AccountList-item">Profession name</div>
@@ -141,7 +166,9 @@ const Professions = ({selectedProfession, setSelectedProfession, step, setStep})
                         )}
                     </div>
                 </div>
-            </div>}
+            </div>
+                </div>
+                }
             {step === 2 && <div className="Table">
                 <div className="Table-head" style={{justifyContent: 'space-between'}}>
                     <div className="Table-head-item AccountList-item"> <div onClick={handleClickBack} className='Profession-back-title'><ArrowLeftSvg/> {selectedProfession?.profession_name}</div> </div>

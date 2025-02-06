@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const getProfessions = async (page) => {
+export const getProfessions = async (page, search) => {
     try {
-        const response = await axios.get(`https://baraka-admin-back.vercel.app/api/professions?page=${page}&limit=15&primary_flag=1`);
+        const response = await axios.get(`https://baraka-admin-back.vercel.app/api/professions?page=${page}&limit=15&primary_flag=1&profession_name=${search}`);
         return response.data;
     } catch (error) {
         throw error;
