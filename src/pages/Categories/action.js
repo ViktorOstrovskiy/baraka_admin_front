@@ -49,7 +49,7 @@ export const createCategories = async (options) => {
 
 export const searchCategories = async (search) => {
     try {
-        const response = await axios.get(`http://94.101.118.41:3000/api/categories/search?q=${search}`);
+        const response = await axios.get(`http://94.101.118.41:3000/api/categories/search?q=${search.toLowerCase()}`);
         return response.data;
     } catch (error) {
         throw error;

@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const searchNews = async (search) => {
     try {
-        const response = await axios.get(`http://94.101.118.41:3000/api/professions/search?q=${search}`);
+        const response = await axios.get(`http://94.101.118.41:3000/api/professions/search?q=${search.toLowerCase()}`);
         return response.data;
     } catch (error) {
         throw error;
