@@ -115,7 +115,7 @@ const CategoriesList = ({selectedProfession, setSelectedProfession, step, setSte
                 <div className="Table-body">
                     {(listProfession !== null  && (listProfession?.data || [])?.length !== 0) ? (
                         (listProfession?.data || []).map((item) => (
-                            <div className="Table-body-row" key={item.id}>
+                            <div className="Table-body-row" key={item.id} onClick={() => handleClickSelectedProfession(item)}>
                                 <div className="Table-body-row-item">{item.name ?? '-'}</div>
                                 <div className="Table-body-row-actions">
 
@@ -165,9 +165,9 @@ const CategoriesList = ({selectedProfession, setSelectedProfession, step, setSte
                 <div className="Table-body">
                     {(keyWordsListForProfession !== null && (keyWordsListForProfession?.data || [])?.length !== 0) ? (
                         (keyWordsListForProfession.data || []).map((item) => (
-                            <div className="Table-body-row"  style={{justifyContent: 'space-between'}} key={item.id}>
+                            <div className="Table-body-row"  style={{justifyContent: 'space-between'}} key={item.id}  onClick={() => handleOpenUpdate(item)}>
                                 <div
-                                    className="Table-body-row-item">{item.id}: <em>{item.name},</em> {item.keyWords.join(', ') ?? '-'} </div>
+                                    className="Table-body-row-item"><em>{item.id}:</em> {item.keyWords.join(', ') ?? '-'} </div>
                                 <div className="Table-body-row-actions">
 
                                     <EditSvg onClick={() => handleOpenUpdate(item)}/>

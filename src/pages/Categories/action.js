@@ -12,7 +12,7 @@ export const getCategories = async (page, search) => {
 
 export const getCategoriesById = async (page, profession_id) => {
     try {
-        const response = await axios.get(`http://94.101.118.41:3000/api/categories?page=${page}&limit=15&name=${profession_id}`);
+        const response = await axios.get(`http://94.101.118.41:3000/api/categories?page=${page}&limit=15&name=${profession_id}&primary_flag=0`);
         return response.data;
     } catch (error) {
         throw error;

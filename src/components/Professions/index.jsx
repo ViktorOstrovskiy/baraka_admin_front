@@ -125,7 +125,7 @@ const Professions = ({selectedProfession, setSelectedProfession, step, setStep})
                 <div className="Table-body">
                     {(listProfession !== null  && (listProfession?.data || [])?.length !== 0) ? (
                         (listProfession?.data || []).map((item) => (
-                            <div className="Table-body-row" key={item.id}>
+                            <div className="Table-body-row" key={item.id}  style={{cursor: 'pointer'}} onClick={() => handleClickSelectedProfession(item)}>
                                 <div className="Table-body-row-item  AccountList-item">{item.category_name ?? '-'}</div>
                                 <div
                                     className="Table-body-row-item  AccountList-item">{item.profession_name ?? '-'}</div>
@@ -177,9 +177,9 @@ const Professions = ({selectedProfession, setSelectedProfession, step, setStep})
                 <div className="Table-body">
                     {(keyWordsListForProfession !== null && (keyWordsListForProfession?.data || [])?.length !== 0) ? (
                         (keyWordsListForProfession.data || []).map((item) => (
-                            <div className="Table-body-row"  style={{justifyContent: 'space-between'}} key={item.id}>
+                            <div className="Table-body-row"  style={{justifyContent: 'space-between'}} key={item.id}  onClick={() => handleOpenUpdate(item)}>
                                 <div
-                                    className="Table-body-row-item  AccountList-item">{item.id}: <em>{item.profession_name},</em> {item.keyWords.join(', ') ?? '-'}, <em>{item.category_name}</em> </div>
+                                    className="Table-body-row-item  AccountList-item"><em>{item.id}:</em> {item.keyWords.join(', ') ?? '-'} </div>
                                 <div className="Table-body-row-actions  AccountList-item">
 
                                     <EditSvg onClick={() => handleOpenUpdate(item)}/>
